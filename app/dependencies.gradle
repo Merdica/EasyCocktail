@@ -1,0 +1,16 @@
+// Dependencies which are valid for all build flavors
+dependencies {
+    implementation "androidx.appcompat:appcompat:$appCombatSupportLibraryVersion"
+    implementation "com.google.android.material:material:$materialSupportLibraryVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+
+    // Local third party dependencies
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Only link these libs for development
+    compileOnly fileTree(dir: 'runtime-libs', include: ['*.jar'])
+
+    //Navigation Architecture
+    implementation "android.arch.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "android.arch.navigation:navigation-ui-ktx:$navigationVersion"
+}
