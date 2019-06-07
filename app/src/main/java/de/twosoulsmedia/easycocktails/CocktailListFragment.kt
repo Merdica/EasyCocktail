@@ -18,10 +18,5 @@ class CocktailListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        findViewById.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_cocktailListFragment_to_cocktailDetailFragment)
-        }
     }
 }
