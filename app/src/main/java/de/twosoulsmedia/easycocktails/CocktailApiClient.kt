@@ -6,6 +6,5 @@ import retrofit2.http.GET
 
 interface CocktailApiClient {
     @GET("random.php")
-    fun getDrinksAsync(): Deferred<Response<List<Drinks>>>
-
+    fun getDrinksAsync(): Deferred<Response<Drinks>>
 }

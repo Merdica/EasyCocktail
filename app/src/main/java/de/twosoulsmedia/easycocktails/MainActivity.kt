@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             val webResponse = WebAccess.cocktailsApi.getDrinksAsync().await()
             if (webResponse.isSuccessful) {
-                val partList : List<Drinks>? = webResponse.body()
+                val partList : Drinks? = webResponse.body()
                 Log.d("BLAAA","BLA")
                 Log.d("cocktail", partList?.toString())
             } else {
