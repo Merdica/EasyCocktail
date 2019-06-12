@@ -1,11 +1,11 @@
-package de.twosoulsmedia.easycocktails
+package de.twosoulsmedia.easycocktails.data
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Drinks(@field:Json(name = "drinks") val drinks: List<Drink>)
 
-@JsonClass(generateAdapter = true)
 data class Drink(@field:Json(name = "idDrink") val id: String,
                  @field:Json(name = "strDrink") val name: String,
                  @field:Json(name = "strTags") val tags: String?,

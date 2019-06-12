@@ -4,23 +4,43 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import de.twosoulsmedia.easycocktails.adapters.CocktailListAdapter
+import de.twosoulsmedia.easycocktails.databinding.FragmentCocktailListBinding
+import de.twosoulsmedia.easycocktails.viewmodels.CocktaiListlViewModelFactory
+import de.twosoulsmedia.easycocktails.viewmodels.CocktailListlViewModel
 
 class CocktailListFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cocktail_list, container, false)
+    private lateinit var viewModel: CocktailListlViewModel
+    private lateinit var viewModelFactory: CocktaiListlViewModelFactory
+
+    private var listAdapter: CocktailListAdapter = CocktailListAdapter()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        activity?.let {
+            viewModelFactory = CocktaiListlViewModelFactory()
+            viewModel = ViewModelProviders.of(this, viewModelFactory).get(CocktailListlViewModel::class.java)
+        }
+
+        val binding = DataBindingUtil.inflate<FragmentCocktailListBinding>(inflater, R.layout.fragment_cocktail_list, container, false)
+        binding.viewModel = viewModel
+        binding.recyclerviewCocktailList.adapter = listAdapter
+        viewModel.cocktails.observe(this, Observer { drinks ->
+            drinks?.let { listAdapter.drinks = it }
+            listAdapter.notifyDataSetChanged()
+        })
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.button).setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_cocktailListFragment_to_cocktailDetailFragment)
-        }
+        viewModel.getCocktailList()
     }
 }
