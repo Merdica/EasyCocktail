@@ -1,6 +1,7 @@
 package de.twosoulsmedia.easycocktails.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
@@ -14,20 +15,22 @@ class CocktailListAdapter : RecyclerView.Adapter<CocktailListAdapter.ViewHolder>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val viewHolder = ViewHolder(
-                ListItemCocktailBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        val viewHolder = ViewHolder(ListItemCocktailBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         viewHolder.itemView.setOnClickListener {
-            val direction = CocktailListFragmentDirections.actionCocktailListFragmentToCocktailDetailFragment(drinks[viewHolder.adapterPosition].id)
-            Navigation.findNavController(it).navigate(direction)
+            showItemDetails(drinks[viewHolder.adapterPosition].id, it)
         }
         return viewHolder
-
     }
 
     override fun getItemCount(): Int = drinks.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.name = drinks[position].name
+    }
+
+    private fun showItemDetails(drinkId: String, view: View) {
+        val direction = CocktailListFragmentDirections.actionCocktailListFragmentToCocktailDetailFragment(drinkId)
+        Navigation.findNavController(view).navigate(direction)
     }
 
     class ViewHolder(val binding: ListItemCocktailBinding) : RecyclerView.ViewHolder(binding.root)
