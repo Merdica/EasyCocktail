@@ -8,11 +8,11 @@ import retrofit2.http.Query
 interface CocktailApiClient {
 
     @GET("random.php")
-    fun getRandomDrinkAsync(): Deferred<Response<Drinks>>
+    suspend fun getRandomDrinkAsync(): Response<Drinks>
 
     @GET("filter.php?c=Cocktail")
-    fun getDrinksFromTypeCocktailAsync(): Deferred<Response<Drinks>>
+    suspend fun getDrinksFromTypeCocktailAsync(): Response<Drinks>
 
     @GET("lookup.php?")
-    fun getDrinkByIdAsync(@Query("id") id: String): Deferred<Response<Drinks>>
+    suspend fun getDrinkByIdAsync(@Query("id") id: String): Response<Drinks>
 }

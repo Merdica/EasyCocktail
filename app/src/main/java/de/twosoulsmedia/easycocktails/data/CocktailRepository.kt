@@ -22,7 +22,7 @@ class CocktailRepository {
         scope.launch(getJobErrorHandler()) {
 
 //            try {
-                val webResponse = CocktailApiCalls.cocktailsApi.getDrinksFromTypeCocktailAsync().await()
+                val webResponse = CocktailApiCalls.cocktailsApi.getDrinksFromTypeCocktailAsync()
                 if (webResponse.isSuccessful) {
                     val response: Drinks? = webResponse.body()
                     Log.d("loadCocktails", response?.toString())
@@ -59,7 +59,7 @@ class CocktailRepository {
     fun loadRandomCocktail() {
 
         scope.launch {
-            val webResponse = CocktailApiCalls.cocktailsApi.getRandomDrinkAsync().await()
+            val webResponse = CocktailApiCalls.cocktailsApi.getRandomDrinkAsync()
             if (webResponse.isSuccessful) {
                 val response : Drinks? = webResponse.body()
                 Log.d("loadRandomCocktail", response?.toString())
@@ -74,7 +74,7 @@ class CocktailRepository {
     fun loadCocktailById(cocktailId: String) {
 
         scope.launch {
-            val webResponse = CocktailApiCalls.cocktailsApi.getDrinkByIdAsync(cocktailId).await()
+            val webResponse = CocktailApiCalls.cocktailsApi.getDrinkByIdAsync(cocktailId)
             if (webResponse.isSuccessful) {
                 val response : Drinks? = webResponse.body()
                 Log.d("loadCocktailById", response?.toString())

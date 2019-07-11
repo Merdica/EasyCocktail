@@ -19,7 +19,7 @@ class CocktailDetailRepository {
     fun loadCocktailById(cocktailId: String) {
 
         scope.launch {
-            val webResponse = CocktailApiCalls.cocktailsApi.getDrinkByIdAsync(cocktailId).await()
+            val webResponse = CocktailApiCalls.cocktailsApi.getDrinkByIdAsync(cocktailId)
             if (webResponse.isSuccessful) {
                 val response : Drinks? = webResponse.body()
                 Log.d("loadCocktailById", response?.toString())
