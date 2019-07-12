@@ -10,8 +10,10 @@ import kotlin.coroutines.CoroutineContext
 
 class CocktailDetailRepository {
 
+    private val TAG = "CocktailDetailRepo"
+
     private val parentJob = Job()
-    private val coroutineContext : CoroutineContext get() = parentJob + Dispatchers.Default
+    private val coroutineContext: CoroutineContext get() = parentJob + Dispatchers.Default
     private val scope = CoroutineScope(coroutineContext)
 
     val cocktail = MutableLiveData<Drink>()
@@ -19,14 +21,17 @@ class CocktailDetailRepository {
     fun loadCocktailById(cocktailId: String) {
 
         scope.launch {
-            val webResponse = CocktailApiCalls.cocktailsApi.getDrinkByIdAsync(cocktailId)
-            if (webResponse.isSuccessful) {
-                val response : Drinks? = webResponse.body()
-                Log.d("loadCocktailById", response?.toString())
-                cocktail.postValue(response?.drinks?.first())
-            } else {
-                // Print error information to the console
-                Log.d("loadCocktailById", "Error ${webResponse.code()}")
+            try {
+                val webResponse = CocktailApiCalls.cocktailsApi.getDrinkByIdAsync(cocktailId)
+                if (webResponse.isSuccessful) {
+                    val response: Drinks? = webResponse.body()
+                    Log.d(TAG, response?.toString())
+                    cocktail.postValue(response?.drinks?.first())
+                } else {
+                    handleHTTPException(webResponse.code())
+                }
+            } catch (e: Exception) {
+                handleExceptions(e)
             }
         }
     }

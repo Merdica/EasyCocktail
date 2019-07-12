@@ -1,6 +1,5 @@
 package de.twosoulsmedia.easycocktails.data
 
-import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,5 +13,5 @@ interface CocktailApiClient {
     suspend fun getDrinksFromTypeCocktailAsync(): Response<Drinks>
 
     @GET("lookup.php?")
-    suspend fun getDrinkByIdAsync(@Query("id") id: String): Response<Drinks>
+    suspend fun getDrinkByIdAsync(@Query("i") id: String): Response<Drinks>
 }

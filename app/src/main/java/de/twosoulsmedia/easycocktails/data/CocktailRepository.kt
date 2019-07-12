@@ -2,15 +2,18 @@ package de.twosoulsmedia.easycocktails.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.*
-import java.io.IOException
-import java.net.UnknownHostException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class CocktailRepository {
 
+    private val TAG = "CocktailRepository"
+
     private val parentJob = Job()
-    private val coroutineContext : CoroutineContext get() = parentJob + Dispatchers.Default
+    private val coroutineContext: CoroutineContext get() = parentJob + Dispatchers.Default
     private val scope = CoroutineScope(coroutineContext)
 
     val cocktails = MutableLiveData<List<Drink>>()
@@ -20,53 +23,35 @@ class CocktailRepository {
     fun loadCocktails() {
 
         scope.launch(getJobErrorHandler()) {
-
-//            try {
+            try {
                 val webResponse = CocktailApiCalls.cocktailsApi.getDrinksFromTypeCocktailAsync()
                 if (webResponse.isSuccessful) {
                     val response: Drinks? = webResponse.body()
-                    Log.d("loadCocktails", response?.toString())
+                    Log.d(TAG, response?.toString())
                     cocktails.postValue(response?.drinks)
                 } else {
-                    //handle error - HTTP status code
-                    webResponse.code()
-                    Log.d("CocktailRepository", "HTTP Error ${webResponse.code()}")
+                    handleHTTPException(webResponse.code())
                 }
-//            } catch (error: IOException) {
-//                //Error with network request
-//                Log.d("CocktailRepository", "IOException: ${error.message}")
-//            }
-        }
-    }
-
-    private fun getJobErrorHandler() = CoroutineExceptionHandler { _, e ->
-        Log.d("CocktailRepository", "Error: ${e.message}")
-
-        when(e) {
-            is IOException -> {
-                //handle IO EXception
+            } catch (e: Exception) {
+                handleExceptions(e)
             }
-            else -> Log.d("CocktailRepository", "Unknown Error: ${e.message}")
-        }
-    }
-
-    private fun handleIOException(exception: IOException) {
-        when (exception) {
-            is UnknownHostException -> Log.d("CocktailRepository", "")
         }
     }
 
     fun loadRandomCocktail() {
 
         scope.launch {
-            val webResponse = CocktailApiCalls.cocktailsApi.getRandomDrinkAsync()
-            if (webResponse.isSuccessful) {
-                val response : Drinks? = webResponse.body()
-                Log.d("loadRandomCocktail", response?.toString())
-                cocktails.postValue(response?.drinks)
-            } else {
-                // Print error information to the console
-                Log.d("loadRandomCocktail", "Error ${webResponse.code()}")
+            try {
+                val webResponse = CocktailApiCalls.cocktailsApi.getRandomDrinkAsync()
+                if (webResponse.isSuccessful) {
+                    val response: Drinks? = webResponse.body()
+                    Log.d(TAG, response?.toString())
+                    cocktails.postValue(response?.drinks)
+                } else {
+                    handleHTTPException(webResponse.code())
+                }
+            } catch (e: Exception) {
+                handleExceptions(e)
             }
         }
     }
@@ -74,14 +59,17 @@ class CocktailRepository {
     fun loadCocktailById(cocktailId: String) {
 
         scope.launch {
-            val webResponse = CocktailApiCalls.cocktailsApi.getDrinkByIdAsync(cocktailId)
-            if (webResponse.isSuccessful) {
-                val response : Drinks? = webResponse.body()
-                Log.d("loadCocktailById", response?.toString())
-                cocktails.postValue(response?.drinks)
-            } else {
-                // Print error information to the console
-                Log.d("loadCocktailById", "Error ${webResponse.code()}")
+            try {
+                val webResponse = CocktailApiCalls.cocktailsApi.getDrinkByIdAsync(cocktailId)
+                if (webResponse.isSuccessful) {
+                    val response: Drinks? = webResponse.body()
+                    Log.d("loadCocktailById", response?.toString())
+                    cocktails.postValue(response?.drinks)
+                } else {
+                    handleHTTPException(webResponse.code())
+                }
+            } catch (e: Exception) {
+                handleExceptions(e)
             }
         }
     }
