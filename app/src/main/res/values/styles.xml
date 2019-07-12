@@ -8,4 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Headline1">
+        <item name="android:textSize">34.4sp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textColor">#880e4f</item>
+    </style>
+
+    <style name="ListItemHeadline">
+        <item name="android:textSize">16.2sp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:lineSpacingExtra">7.8sp</item>
+        <item name="android:textColor">#de000000</item>
+    </style>
+
+    <style name="ListItemBody">
+        <item name="android:textSize">14.2sp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:lineSpacingExtra">5.8sp</item>
+        <item name="android:textColor">#99000000</item>
+    </style>
+
 </resources>

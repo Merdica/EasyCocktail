@@ -1,19 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
+            name="thumbnail"
+            type="String" />
+
+        <variable
             name="name"
+            type="String" />
+
+        <variable
+            name="description"
             type="String" />
     </data>
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="18dp"
-        android:paddingVertical="12dp"
-        android:text="@{name}"
-        tools:text="Name" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp">
+
+        <de.twosoulsmedia.easycocktails.CustomImageView
+            android:id="@+id/imageview_thumbnail_small"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_rounded_corner"
+            app:imageURL="@{thumbnail}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/textview_name"
+            style="@style/ListItemHeadline"
+            android:singleLine="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{name}"
+            app:layout_constraintEnd_toStartOf="@+id/imagebutton_favourite"
+            app:layout_constraintStart_toEndOf="@+id/imageview_thumbnail_small"
+            app:layout_constraintTop_toTopOf="@+id/imageview_thumbnail_small"
+            tools:text="Name" />
+
+        <TextView
+            android:id="@+id/textview_description"
+            style="@style/ListItemBody"
+            android:layout_width="0dp"
+            android:maxLines="2"
+            android:layout_height="wrap_content"
+            android:text="@{description}"
+            app:layout_constraintEnd_toStartOf="@+id/imagebutton_favourite"
+            app:layout_constraintStart_toStartOf="@+id/textview_name"
+            app:layout_constraintTop_toBottomOf="@+id/textview_name"
+            tools:text="Name" />
+
+        <ImageButton
+            android:id="@+id/imagebutton_favourite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/ic_favorite"
+            android:tint="@color/fav_icon_button_selector"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageview_thumbnail_small" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorListItemDivider"
+            app:layout_constraintTop_toBottomOf="@+id/textview_description"
+            android:layout_marginTop="11dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

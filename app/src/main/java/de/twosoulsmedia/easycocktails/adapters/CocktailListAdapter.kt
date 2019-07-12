@@ -26,6 +26,8 @@ class CocktailListAdapter : RecyclerView.Adapter<CocktailListAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.name = drinks[position].name
+        holder.binding.description = "Alcoholic, Ordinary Drink, Old-fashioned glass"
+        holder.binding.thumbnail = drinks[position].thumbnail
     }
 
     private fun showItemDetails(drinkId: String, view: View) {

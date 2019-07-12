@@ -39,5 +39,6 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.androidxArchVersion"
 
-
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
